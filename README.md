@@ -1,5 +1,6 @@
 # REST Countries API with color theme switcher:
-It's a challenge project from https://www.frontendmentor.io/challenges/rest-countries-api-with-color-theme-switcher-5cacc469fec04111f7b848ca
+
+It's a fun challenge project from [frontendmentor.io](https://www.frontendmentor.io/challenges/rest-countries-api-with-color-theme-switcher-5cacc469fec04111f7b848ca)
 
 ## Stack
 - React
