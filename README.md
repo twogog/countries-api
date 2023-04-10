@@ -3,7 +3,7 @@
 It's a fun challenge project from [frontendmentor.io](https://www.frontendmentor.io/challenges/rest-countries-api-with-color-theme-switcher-5cacc469fec04111f7b848ca)
 
 ## Stack
-- React
+- React (next time I will use Vite instead of create react app)
 - Redux (will redo with toolkit lately)
 - React router
 - Rest API (https://restcountries.com)
