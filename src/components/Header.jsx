@@ -8,7 +8,7 @@ export const Header = ({ wrongAdress }) => {
   const { elementBg, textColor } = theme;
   const dispatch = useDispatch();
   const toggleTheme = () => {
-    theme.status === 'dark'
+    theme === 'dark'
       ? dispatch(changeTheme('light'))
       : dispatch(changeTheme('dark'));
   };
@@ -23,7 +23,7 @@ export const Header = ({ wrongAdress }) => {
         <Link to='/'><h3 style={{ color: textColor }}>Where in the World?</h3></Link>
         {!wrongAdress && 
         (<button style={{ color: textColor }} onClick={toggleTheme} className='theme-changer'>
-          {theme.status === 'dark' ? 'Light Mode' : 'Dark Mode'}
+          {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
         </button>)}
       </div>
     </header>
