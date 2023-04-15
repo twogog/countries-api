@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { countriesReducer } from "./coutries/countriesReducer";
-import { filtersReducer } from "./filters/filtersReducer";
-import { themeReducer } from "./theme/themeReducer";
+import { countriesReducer } from "./features/coutries/countriesSlicer";
+import { themeReducer } from "./features/theme/themeSlice";
+import { filtersReducer } from "./features/filters/filtersSlice";
 import { configureStore } from "@reduxjs/toolkit";
 
 // const persistConfig = {
@@ -32,4 +32,4 @@ export const store = configureStore({
   devTools: true,
 });
 
-export const persistor = persistStore(store);
+// export const persistor = persistStore(store);

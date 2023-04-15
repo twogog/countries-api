@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { openCountry } from "../store/coutries/actions";
+import { loadCountry } from "../features/coutries/countriesSlicer";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -10,7 +10,7 @@ export const Details = () => {
   const country = useSelector((state) => state.countries.country);
   const theme = useSelector((state) => state.theme);
   const { textColor, elementBg } = theme;
-  const [fakeStory, setFakeStory] = useState([country?.name?.common]);
+
   if (!country.hasOwnProperty('name')) return null;
   const {
     tld,
@@ -50,22 +50,6 @@ export const Details = () => {
     .sort()
     : [];
 
-  const newCountry = (countryName, back = false) => {
-    !back && setFakeStory([...fakeStory, countryName]);
-    const countryObj = allCountries
-      .filter((c) => c.name.common === countryName);
-    dispatch(openCountry(...countryObj));
-  };
-
-  const backToPrev = () => {
-    setFakeStory(fakeStory.slice(0, -1));
-    if (fakeStory.slice(0, -1).length === 0) {
-      navigate(-1);
-    } else {
-      newCountry(fakeStory.slice(0, -1).at(-1), true);
-    }
-  };
-
   const buttonStyles = () => ({
     background: elementBg,
     color: textColor,
@@ -76,7 +60,7 @@ export const Details = () => {
     <div style={{ color: textColor }} className='inner-wrapper detailed__inner-wrapper'>
     <button 
       style={ buttonStyles()}
-      className="detailed__back" onClick={backToPrev}>&larr; Back
+      className="detailed__back" onClick={() => navigate(-1)}>&larr; Back
     </button>
     <div className="country-detailed">
       <img src={flagsSrc} alt={flags.alt ? flags.alt : `The ${countryName} flag`} />
@@ -102,7 +86,7 @@ export const Details = () => {
             : border.map((b) =>
             <button 
               style={ buttonStyles() }
-              onClick={() => newCountry(b)} key={b}>{b}
+              onClick={() => dispatch(loadCountry(b))} key={b}>{b}
             </button>)
           }
           </div>

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { changeTheme } from '../store/theme/actions';
+import { changeTheme } from '../features/theme/themeSlice';
 import { useEffect } from 'react';
 
 export const Header = ({ wrongAdress }) => {

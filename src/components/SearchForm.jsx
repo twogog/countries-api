@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addCountry, addRegion } from "../store/filters/actions";
+import { addCountry, addRegion } from "../features/filters/filtersSlice";
 import { useState } from "react";
 
 export const SearchForm = () => {
