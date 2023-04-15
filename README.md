@@ -1,4 +1,4 @@
-# REST Countries API with color theme switcher: test
+# REST Countries API with color theme switcher:
 
 It's a fun challenge project from [frontendmentor.io](https://www.frontendmentor.io/challenges/rest-countries-api-with-color-theme-switcher-5cacc469fec04111f7b848ca)
 
