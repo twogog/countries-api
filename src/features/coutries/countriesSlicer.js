@@ -3,7 +3,10 @@ import { sortCountries } from '../../helper/index';
 
 const initialState = {
   list: [],
-  country: {},
+  country: {
+    country: {},
+    borders: [],
+  },
   loading: false,
   error: 'idle',
 }
@@ -38,7 +41,11 @@ export const loadCountry = createAsyncThunk('@@/fetchCountry',
   async (country, thunkAPI) => {
     const response = await fetch('https://restcountries.com/v3.1/name/' + country);
     const data = await response.json();
-    return data;
+    const getBorders = data[0]?.borders?.join();
+    if (getBorders === undefined) return [data[0], []];
+    const response1 = await fetch('https://restcountries.com/v3.1/alpha?codes=' + getBorders);
+    const data1 = await response1.json();
+    return [data[0], data1];
   },
 );
 
@@ -52,14 +59,20 @@ const countriesSlice = createSlice({
     builder
       .addCase(loadCountries.fulfilled, (state, action) => {
         state.list = action.payload;
-        state.loading = false;
-      })
-      .addCase(loadCountries.pending, (state, action) => {
-        state.loading = true;
       })
       .addCase(loadCountry.fulfilled, (state, action) => {
-        console.log(action.payload);
+        const [country, borders] = action.payload;
+        state.country = {
+          country,
+          borders: borders.map((border) => border.name.common).sort(),
+        };
       })
+      .addMatcher((action) => action.type.endsWith('/fulfilled'),
+        (state) => { state.loading = false }
+      )
+      .addMatcher((action) => action.type.endsWith('/pending'),
+        (state) => { state.loading = true} 
+      )
   }
 });
 

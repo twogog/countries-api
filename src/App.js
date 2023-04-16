@@ -20,7 +20,7 @@ export const App = () => {
             <Home />
           </>
         } />
-        <Route path='country' element={
+        <Route path='country/:countryEl' element={
           <>
             <Header />
             <Details />

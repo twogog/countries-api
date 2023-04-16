@@ -1,16 +1,23 @@
 import { useDispatch, useSelector } from "react-redux";
 import { loadCountry } from "../features/coutries/countriesSlicer";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useState } from "react";
+import { useEffect } from "react";
+import { Loading } from "./Loading";
 
 export const Details = () => {
+  const { countryEl } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const allCountries = useSelector((state) => state.countries.list);
-  const country = useSelector((state) => state.countries.country);
+  const { country, borders } = useSelector((state) => state.countries.country);
   const theme = useSelector((state) => state.theme);
+  const { error, loading } = useSelector((state) => state.countries)
   const { textColor, elementBg } = theme;
-
+  useEffect(() => {
+    dispatch(loadCountry(countryEl));
+  }, [dispatch, countryEl]);
+  if (loading) return <Loading />;
   if (!country.hasOwnProperty('name')) return null;
   const {
     tld,
@@ -22,7 +29,6 @@ export const Details = () => {
     population,
     name,
     flags,
-    borders,
   } = country;
   const countryName = name.common;
   const flagsSrc = flags.png;
@@ -42,14 +48,7 @@ export const Details = () => {
   const language = languages !== undefined 
     ? Object.values(languages).sort().join(', ')
     : 'none';
-    
-  const border = borders
-    ? allCountries
-    .filter(((c) => borders.includes(c.cca3)))
-    .map((c) => c.name.common)
-    .sort()
-    : [];
-
+  
   const buttonStyles = () => ({
     background: elementBg,
     color: textColor,
@@ -81,13 +80,14 @@ export const Details = () => {
             </div>
           </div>
           <div className="country-detailed__border"><b>Border countries:</b> {
-            border.length === 0
+            borders.length === 0
             ? 'none'
-            : border.map((b) =>
-            <button 
+            : borders.map((borderCountry) =>
+            <Link 
               style={ buttonStyles() }
-              onClick={() => dispatch(loadCountry(b))} key={b}>{b}
-            </button>)
+              to={'../country/' + borderCountry}
+              key={borderCountry}>{borderCountry}
+            </Link>)
           }
           </div>
         </div>

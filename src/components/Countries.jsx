@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Country } from "./Country";
 import { loadCountries } from "../features/coutries/countriesSlicer";
 import { selectVisible } from "../selectors";
+import { Loading } from "./Loading";
 
 export const Countries = () => {
   const dispatch = useDispatch();
@@ -20,26 +21,7 @@ export const Countries = () => {
       </div>);
   }
 
-  if (loading) { 
-    return (
-      <div className="loading-and-error">
-        <div className="lds-spinner">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        </div>
-      </div>
-    );
-  }
+  if (loading) { return <Loading />}
   
   return (
     <div className="countries-container">

@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { loadCountry } from "../features/coutries/countriesSlicer";
 
 export const Country = ({ country }) => {
   const dispatch = useDispatch();
@@ -18,11 +17,11 @@ export const Country = ({ country }) => {
   const capi = capital !== undefined ? capital.join(' ') : 'none';
   return (
       <div className="country-container" style={{ background: elementBg }}>
-        <Link to={countryName} onClick={() => dispatch(loadCountry(countryName))}>
+        <Link to={'country/' + countryName}>
           <img src={flagsSrc} alt={flags.alt ? flags.alt : `The ${countryName} flag`} />
         </Link>
         <div className="contry-container__description">
-          <h4><Link to={countryName} style={{ color: textColor }} onClick={() => dispatch(loadCountry(countryName))}>{countryName}</Link></h4>
+          <h4><Link to={'country/' + countryName} style={{ color: textColor }}>{countryName}</Link></h4>
           <p><b>Population:</b> {population.toLocaleString()}</p>
           <p><b>Region:</b> {region}</p>
           <p><b>Capital:</b> {capi}</p>
