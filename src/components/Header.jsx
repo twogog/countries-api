@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 
 export const Header = ({ wrongAdress }) => {
   const theme = useSelector((state) => state.theme);
-  const { elementBg, textColor } = theme;
   const dispatch = useDispatch();
   const toggleTheme = () => {
     theme === 'dark'
@@ -14,15 +13,15 @@ export const Header = ({ wrongAdress }) => {
   };
 
   useEffect(() => {
-    document.body.style.backgroundColor = theme.bodyBg;
+    document.body.setAttribute('theme', theme);
   }, [theme]);
 
   return (
-    <header className='header' style={{ background: elementBg }}>
+    <header className='header'>
       <div className='inner-wrapper header__inner-wrapper'>
-        <Link to='/'><h3 style={{ color: textColor }}>Where in the World?</h3></Link>
+        <Link to='/'><h3>Where in the World?</h3></Link>
         {!wrongAdress && 
-        (<button style={{ color: textColor }} onClick={toggleTheme} className='theme-changer'>
+        (<button onClick={toggleTheme} className='theme-changer'>
           {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
         </button>)}
       </div>

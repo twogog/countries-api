@@ -10,42 +10,37 @@ const initialState = {
   loading: false,
   error: 'idle',
 }
-// export const fetchCountries = (url) => (dispatch) => {
-//   dispatch(addStatus({ status: 'loading', error: null }));
-//   try {
-//     setTimeout( async () => {
-//       const response = await fetch(url);
-//       if (!response.ok) {
-//         dispatch(addStatus({ status: 'failed', error: 'Loading failed' }));
-//         throw new Error('Loading failed');
-//       }
-//       const data = await response.json();
-//       dispatch(addStatus({ status: 'finished', error: null }));
-//       dispatch(addCountries(data));
-//     }, 2000);
-//   } catch (error) {
-//     console.error(error.message);
-//     dispatch(addStatus({ status: 'failed', error: error.message }))
-//   }
-// };
 
 export const loadCountries = createAsyncThunk('@@/fetchCountries',
   async (_, thunkAPI) => {
-    const response = await fetch('https://restcountries.com/v3.1/all');
-    const data = await response.json();
-    return sortCountries(data);
+    try {
+      const response = await fetch('https://restcountries.com/v3.1/all');
+      if (!response.ok) return Promise.reject('failed');
+      const data = await response.json();
+      return sortCountries(data);
+    } catch (error) {
+      return Promise.reject('failed');
+    }
+    
   },
 );
 
 export const loadCountry = createAsyncThunk('@@/fetchCountry',
   async (country, thunkAPI) => {
-    const response = await fetch('https://restcountries.com/v3.1/name/' + country);
-    const data = await response.json();
-    const getBorders = data[0]?.borders?.join();
-    if (getBorders === undefined) return [data[0], []];
-    const response1 = await fetch('https://restcountries.com/v3.1/alpha?codes=' + getBorders);
-    const data1 = await response1.json();
-    return [data[0], data1];
+    try {
+      const response = await fetch('https://restcountries.com/v3.1/name/' + country);
+      if (!response.ok) return Promise.reject('failed');
+      const data = await response.json();
+      const getBorders = data[0]?.borders?.join();
+      if (getBorders === undefined) return [data[0], []];
+      const response1 = await fetch('https://restcountries.com/v3.1/alpha?codes=' + getBorders);
+      if (!response1.ok) return Promise.reject('failed');
+      const data1 = await response1.json();
+      return [data[0], data1];
+    } catch (error) {
+      return Promise.reject('failed');
+    }
+    
   },
 );
 
@@ -60,6 +55,10 @@ const countriesSlice = createSlice({
       .addCase(loadCountries.fulfilled, (state, action) => {
         state.list = action.payload;
       })
+      .addCase(loadCountries.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
       .addCase(loadCountry.fulfilled, (state, action) => {
         const [country, borders] = action.payload;
         state.country = {
@@ -67,11 +66,21 @@ const countriesSlice = createSlice({
           borders: borders.map((border) => border.name.common).sort(),
         };
       })
+      .addCase(loadCountry.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
       .addMatcher((action) => action.type.endsWith('/fulfilled'),
-        (state) => { state.loading = false }
+        (state) => {
+          state.loading = false;
+          state.error = null;
+        }
       )
       .addMatcher((action) => action.type.endsWith('/pending'),
-        (state) => { state.loading = true} 
+        (state) => {
+          state.loading = true;
+          state.error = null;
+        } 
       )
   }
 });

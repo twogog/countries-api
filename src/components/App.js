@@ -1,7 +1,7 @@
-import { Header } from "./components/Header";
-import { Home } from "./components/Home";
-import { Details } from "./components/Details";
-import { WrongAddress } from "./components/WrongAddress";
+import { Header } from "./Header";
+import { Home } from "../pages/Home";
+import { Details } from "../pages/Details";
+import { WrongAddress } from "../pages/WrongAddress";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export const App = () => {

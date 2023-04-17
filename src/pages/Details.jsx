@@ -1,23 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import { loadCountry } from "../features/coutries/countriesSlicer";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { useState } from "react";
 import { useEffect } from "react";
-import { Loading } from "./Loading";
+import { Loading } from "../components/Loading";
+import { Error } from "../components/Error";
 
 export const Details = () => {
   const { countryEl } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const allCountries = useSelector((state) => state.countries.list);
   const { country, borders } = useSelector((state) => state.countries.country);
-  const theme = useSelector((state) => state.theme);
   const { error, loading } = useSelector((state) => state.countries)
-  const { textColor, elementBg } = theme;
   useEffect(() => {
     dispatch(loadCountry(countryEl));
   }, [dispatch, countryEl]);
   if (loading) return <Loading />;
+  if (error) return <Error error={error} />;
   if (!country.hasOwnProperty('name')) return null;
   const {
     tld,
@@ -49,16 +47,11 @@ export const Details = () => {
     ? Object.values(languages).sort().join(', ')
     : 'none';
   
-  const buttonStyles = () => ({
-    background: elementBg,
-    color: textColor,
-  });
   // tld, languages, currencies, capital, altSpellings
   // subregion, region, population, name, flags, borders, cca3
   return (
-    <div style={{ color: textColor }} className='inner-wrapper detailed__inner-wrapper'>
-    <button 
-      style={ buttonStyles()}
+    <div className='inner-wrapper detailed__inner-wrapper'>
+    <button
       className="detailed__back" onClick={() => navigate(-1)}>&larr; Back
     </button>
     <div className="country-detailed">
@@ -83,10 +76,12 @@ export const Details = () => {
             borders.length === 0
             ? 'none'
             : borders.map((borderCountry) =>
-            <Link 
-              style={ buttonStyles() }
+            <Link
               to={'../country/' + borderCountry}
-              key={borderCountry}>{borderCountry}
+              key={borderCountry}>
+                <button>
+                  {borderCountry}
+                </button>
             </Link>)
           }
           </div>

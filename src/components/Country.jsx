@@ -16,12 +16,12 @@ export const Country = ({ country }) => {
   const flagsSrc = flags.png;
   const capi = capital !== undefined ? capital.join(' ') : 'none';
   return (
-      <div className="country-container" style={{ background: elementBg }}>
+      <div className="country-container">
         <Link to={'country/' + countryName}>
           <img src={flagsSrc} alt={flags.alt ? flags.alt : `The ${countryName} flag`} />
         </Link>
         <div className="contry-container__description">
-          <h4><Link to={'country/' + countryName} style={{ color: textColor }}>{countryName}</Link></h4>
+          <h4><Link to={'country/' + countryName}>{countryName}</Link></h4>
           <p><b>Population:</b> {population.toLocaleString()}</p>
           <p><b>Region:</b> {region}</p>
           <p><b>Capital:</b> {capi}</p>
