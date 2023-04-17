@@ -4,12 +4,13 @@ It's a fun challenge project from [frontendmentor.io](https://www.frontendmentor
 
 ## Build
 
-Check on Vercel https://countries-api-gray.vercel.app/
+Check on Vercel https://countries-api-without-toolkit.vercel.app/
 
 ## Stack
 - React (next time I will use Vite instead of create react app)
 - Redux (will redo with toolkit lately)
 - React router
+- Redux persist
 - Rest API (https://restcountries.com)
 
 ## Available Scripts
