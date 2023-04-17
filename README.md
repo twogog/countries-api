@@ -10,6 +10,7 @@ Check on Vercel https://countries-api-gray.vercel.app/
 - React (next time I will use Vite instead of create react app)
 - Redux (toolkit version)
 - React router
+- Redux persist
 - Rest API (https://restcountries.com)
 
 ## Available Scripts
